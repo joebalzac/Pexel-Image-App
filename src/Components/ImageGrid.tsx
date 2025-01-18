@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useData from "../Hooks/useData";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface Image {
   id: number;
@@ -33,10 +34,18 @@ const ImageGrid = () => {
     console.log("This image is selected", selectedImage);
   };
 
+  const handleCloseSelectedImage = () => {
+    setSelectedImage(null);
+  };
+
   return (
     <>
       {selectedImage ? (
-        <div>
+        <div className="relative">
+          <IoCloseSharp
+            onClick={handleCloseSelectedImage}
+            className="cursor-pointer absolute top-0 right-20 z-50 h-10 w-10"
+          />
           <img src={selectedImage.src.portrait} alt="" />
         </div>
       ) : (
