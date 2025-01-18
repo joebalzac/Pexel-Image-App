@@ -1,19 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-interface Image {
-  id: number;
-  url: string;
-  photographer: string;
-  src: {
-    original: string;
-    tiny: string;
-    portrait: string;
-  };
-}
-
-const useData = () => {
-  const [images, setImages] = useState<Image[]>([]);
+const useData = <T>() => {
+  const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,10 +19,9 @@ const useData = () => {
             },
           }
         );
-        const data = response.data;
-        const photos: Image[] = data.photos;
+        const photos = response.data.photos;
         console.log("Big data dawg", photos);
-        setImages(photos);
+        setData(photos);
       } catch (error) {
         if (error) {
           setError("unknown error found");
@@ -45,7 +33,7 @@ const useData = () => {
     fetchPhotos();
   }, []);
 
-  return { images, error, isLoading };
+  return { data, error, isLoading };
 };
 
 export default useData;
