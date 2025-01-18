@@ -54,7 +54,7 @@ const ImageGrid = () => {
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
             {images.map((image) => (
               <li
-                className="cursor-pointer"
+                className="cursor-pointer hover:-translate-y-1 hover:shadow-2xl transition-all"
                 key={image.id}
                 onClick={() => handleSelectedImage(image)}
               >
