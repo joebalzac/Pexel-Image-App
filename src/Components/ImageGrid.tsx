@@ -38,16 +38,26 @@ const ImageGrid = () => {
 
   const handleSelectedImage = (image: Image) => {
     setSelectedImage(image);
-    console.log("This image is selected", selectedImage);
+    console.log("Selected Image", selectedImage);
   };
 
-  const handleCloseSelectedImage = () => {
+  const handleCloseSelected = () => {
     setSelectedImage(null);
   };
 
   const handleDeleteImage = (id: number) => {
     setImages(images.filter((image) => image.id !== id));
-    console.log("this is firing");
+  };
+
+  const deleteSelectedImages = () => {
+    if (!selectedImageIds) {
+      setIsError("Please select images to delete");
+    }
+
+    setImages((prevImages) =>
+      prevImages.filter((image) => !selectedImageIds?.includes(image.id))
+    );
+    setSelectedImageIds(null);
   };
 
   const handleInputChange = (
@@ -59,19 +69,6 @@ const ImageGrid = () => {
         ? [...(prevSelected || []), id]
         : prevSelected?.filter((imageId) => imageId !== id) || null
     );
-    console.log("selected images", selectedImageIds);
-  };
-
-  const deleteSelectedImages = () => {
-    if (!selectedImageIds || selectedImageIds.length === 0) {
-      setIsError("Please select images to delete");
-    }
-    setImages((prevImages) =>
-      prevImages.filter((image) => !selectedImageIds?.includes(image.id))
-    );
-
-    setSelectedImageIds([]);
-    setIsError("");
   };
 
   console.log("big Data", data, images);
@@ -86,7 +83,7 @@ const ImageGrid = () => {
           {selectedImage ? (
             <div className="relative">
               <IoCloseSharp
-                onClick={handleCloseSelectedImage}
+                onClick={handleCloseSelected}
                 className="cursor-pointer absolute top-0 right-20 z-50 h-10 w-10"
               />
               <img src={selectedImage.src.portrait} alt="" />
@@ -114,7 +111,6 @@ const ImageGrid = () => {
                       key={image.id}
                       onClick={() => handleSelectedImage(image)}
                     >
-                      {" "}
                       <img
                         className="h-full"
                         src={image.src.original}
